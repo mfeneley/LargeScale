@@ -1,0 +1,136 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: Robot API (Simple)
+  description: A API created to store and access robots within a building
+  termsOfService: http://helloreverb.com/terms/
+basePath: /api
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /:building_id:
+    get:
+      description: Basic webpage templated with Jade that allows for a specefic building to be interfaced with
+      responses:
+        '200':
+          description: building page displayed
+          schema:
+  /:building_id/robots:
+    get:
+      description: Returns a complete list of all robots within the building
+      responses:
+        '200':
+          description: robot response
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+    post:
+      description: Creates a new robot within the building specefied by building_id
+      parameters:
+        - name: id
+          in: path
+          description: id is generated, other fields can be filled in
+          required: true
+          schema:
+            $ref: '#/definitions/robot'
+      responses:
+        '200':
+          description: robot created
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+  /:building_id/robots/:robot_id:
+    get:
+      description: returns the robot with the specefied id
+      parameters:
+        - name: id
+          in: path
+          description: id used to find robot
+          required: true
+          schema:
+            $ref: '#/definitions/robot'
+      responses:
+        200:
+          description: OK
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+    put:
+      description: Updates the robot with the specefied id
+      parameters:
+        - name: id
+          in: path
+          description: id used to find robot
+          required: true
+          schema:
+            $ref: '#/definitions/robot'
+      responses:
+        200:
+          description: Robot updated
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+          
+    delete:
+      description: deleted the robot with the specefied id 
+      parameters:
+        - name: id
+          in: path 
+          description: id used to find robot
+          required: true
+          schema:
+            $ref: '#/definitions/robot'
+      responses:
+        200:
+          description: OK
+definitions:
+  robot:
+    type: object
+    required:
+      - id
+      - home
+      - updated
+    properties:
+      id:
+        type: string
+      home:
+        type: string
+      name:
+        type: string
+      updated:
+        type: string
+        format: dateTime
+      sensors:
+        type: array
+        format: sensorSchema
+      movement:
+        type: string
+      offensive:
+        type: boolean
+      emergency:
+        type: boolean
+      floor:
+        type: integer
+      x_pos:
+        type: integer
+      y_pos:
+        type: integer
+  errorModel:
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string

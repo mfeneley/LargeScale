@@ -1,0 +1,71 @@
+doctype
+html
+  head
+    title= title
+  body
+    h3 Create a new Robot
+    p Name: 
+      input(type="text", id="c_name")
+    p Movement Type: 
+      input(type="text", id="c_movement")
+    p Offensive Capabilities: 
+      input(type="text", id="c_offensive")
+    p Emergency Capabilities: 
+      input(type="text", id="c_emergency")
+    p Floor: 
+      input(type="text", id="c_floor")
+    p X Position: 
+      input(type="text", id="c_x_pos")
+    p Y Position: 
+      input(type="text", id="c_y_pos")
+    button(onclick='create()') Create
+    h3 View all Robots
+    button(onclick='view()') View
+    h3 Update Robot by ID
+    p ID: 
+      input(type="text", id="robot_id")
+    p Name: 
+      input(type="text", id="name")
+    p Movement Type: 
+      input(type="text", id="movement")
+    p Offensive Capabilities: 
+      input(type="text", id="offensive")
+    p Emergency Capabilities: 
+      input(type="text", id="emergency")
+    p Floor: 
+      input(type="text", id="floor")
+    p X Position: 
+      input(type="text", id="x_pos")
+    p Y Position: 
+      input(type="text", id="y_pos")
+    button(onclick='update()') Update
+    h3 Destroy Robot by ID
+    p ID: 
+      input(type="text", id="robot_id")
+    button(onclick='destroy()') Destroy
+script.
+  
+  function create() {
+    var method = "post"; // Set method to post by default if not specified.
+    var path = window.location.href + 'robots'
+
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+    var count = 0;
+    var ids = ["c_name" , "c_movement", "c_emergency", "c_offensive", "c_floor", "c_x_pos", "c_y_pos"];
+    for(count < ids.length) {
+      var hiddenField = document.createElement("input");
+      hiddenField.setAttribute("type", "hidden");
+      hiddenField.setAttribute("name", ids[count]);
+      hiddenField.setAttribute("value", document.getElementById(ids[count]).value);
+
+      form.appendChild(hiddenField);
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+    window.location.href = path
+  }

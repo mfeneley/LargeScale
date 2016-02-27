@@ -1,0 +1,14 @@
+doctype
+html
+  head
+    title= title
+  body
+    h1= message
+    p ID: 
+      input(type="text", id="building_id")
+    button(onclick='move()') Submit
+script.
+  function move() {
+    var stringDat = 'api/' + document.getElementById('building_id').value
+    window.location.href = stringDat
+  }
