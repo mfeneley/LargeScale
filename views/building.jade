@@ -48,8 +48,8 @@ script.
   function create() {
     var method = "post"; // Set method to post by default if not specified.
     var path = window.location.href + '/robots'
-    // The rest of this code assumes you are not using a library.
-    // It can be made less wordy if you use one.
+    
+
     var form = document.createElement("form");
     form.setAttribute("method", method);
     form.setAttribute("action", path);
@@ -65,7 +65,7 @@ script.
 
     document.body.appendChild(form);
     form.submit();
-    window.location.href = path
+ 
   }
 
   function view() {
