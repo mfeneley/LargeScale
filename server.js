@@ -108,10 +108,9 @@ router.route('/:building_id/robots')
     // create a robot (accessed at POST http://localhost:8080/api/)
     .post(function(req, res) {
     	console.log('Trying to post robot object');
-        
         var robot = new Robot();      // create a new instance of the robot model
         robot.home = req.params.building_id; // set the robots home building
-        robot.name = req.body.name;  // set the robots name (comes from the request)
+        robot.name = req.body.c_name;  // set the robots name (comes from the request)
         robot.updated = Date.now();
         robot.movement = 'tracks';
         robot.offensive = false;
@@ -120,20 +119,23 @@ router.route('/:building_id/robots')
         robot.x_pos = 0;
         robot.y_pos = 0;
 
+	console.log(req);
+	
         //if these values are available they will be set accordingly
-        if (req.body.movement)
-        	robot.movement = req.body.movement;
-        if (req.body.offensive)
-        	robot.offensive = req.body.offensive;
-        if (req.body.emergency)
-        	robot.emergency = req.body.emergency;
-        if (req.body.floor)
-        	robot.floor = req.body.floor;
-        if (req.body.x_pos)
-        	robot.x_pos = req.body.x_pos;
-        if (req.body.y_pos)
-        	robot.y_pos = req.body.y_pos;
-
+        if (req.body.c_movement)
+        	robot.movement = req.body.c_movement;
+        if (req.body.c_offensive)
+        	robot.offensive = req.body.c_offensive;
+        if (req.body.c_emergency)
+        	robot.emergency = req.body.c_emergency;
+        if (req.body.c_floor)
+        	robot.floor = req.body.c_floor;
+        if (req.body.c_x_pos)
+        	robot.x_pos = req.body.c_x_pos;
+        if (req.body.c_y_pos)
+        	robot.y_pos = req.body.c_y_pos;
+	if (req.body.c_movement)
+		robot.movement = req.body.c_movement;
 
         // save the robot and check for errors
         robot.save(function(err) {
@@ -187,20 +189,20 @@ router.route('/:building_id/robots/:robot_id')
             robot.updated = Date.now();
 
 	        //if these values are available they will be set accordingly
-	        if (req.body.name)
+	        if (req.body.c_name)
 	        	robot.name = req.body.name;
-	        if (req.body.movement)
-	        	robot.movement = req.body.movement;
-	        if (req.body.offensive)
-	        	robot.offensive = req.body.offensive;
-	        if (req.body.emergency)
-	        	robot.emergency = req.body.emergency;
-	        if (req.body.floor)
-	        	robot.floor = req.body.floor;
-	        if (req.body.x_pos)
-	        	robot.x_pos = req.body.x_pos;
-	        if (req.body.y_pos)
-	        	robot.y_pos = req.body.y_pos;
+	        if (req.body.c_movement)
+	        	robot.movement = req.body.c_movement;
+	        if (req.body.c_offensive)
+	        	robot.offensive = req.body.c_offensive;
+	        if (req.body.c_emergency)
+	        	robot.emergency = req.body.c_emergency;
+	        if (req.body.c_floor)
+	        	robot.floor = req.body.c_floor;
+	        if (req.body.c_x_pos)
+	        	robot.x_pos = req.body.c_x_pos;
+	        if (req.body.c_y_pos)
+	        	robot.y_pos = req.body.c_y_pos;
 
             // save the robot
             robot.save(function(err) {
