@@ -47,8 +47,7 @@ script.
   
   function create() {
     var method = "post"; // Set method to post by default if not specified.
-    var path = window.location.href + 'robots'
-
+    var path = window.location.href + '/robots'
     // The rest of this code assumes you are not using a library.
     // It can be made less wordy if you use one.
     var form = document.createElement("form");
@@ -56,16 +55,19 @@ script.
     form.setAttribute("action", path);
     var count = 0;
     var ids = ["c_name" , "c_movement", "c_emergency", "c_offensive", "c_floor", "c_x_pos", "c_y_pos"];
-    for(count < ids.length) {
+    for(; count < ids.length; count++) {
       var hiddenField = document.createElement("input");
       hiddenField.setAttribute("type", "hidden");
       hiddenField.setAttribute("name", ids[count]);
       hiddenField.setAttribute("value", document.getElementById(ids[count]).value);
-
       form.appendChild(hiddenField);
     }
 
     document.body.appendChild(form);
     form.submit();
     window.location.href = path
+  }
+
+  function view() {
+    window.location.href = window.location.href + '/robots';
   }

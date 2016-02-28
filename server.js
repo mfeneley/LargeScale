@@ -147,6 +147,7 @@ router.route('/:building_id/robots')
 
     // get all the robots (accessed at GET http://localhost:8080/api/:building_id/robots)
     .get(function(req, res) {
+        console.log("GET /api/builiding_id/robots");
         Robot.find({}, function(err, robots) {
         	var robotMap = {};
 
