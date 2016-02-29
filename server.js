@@ -1,4 +1,4 @@
-// server.js
+
 
 // BASE SETUP
 // =============================================================================
@@ -106,9 +106,9 @@ router.get('/:building_id', function(req, res){
 router.route('/:building_id/robots')
 
     // create a robot (accessed at POST http://localhost:8080/api/)
-    .post(function(req, res) {
-    	console.log('Trying to post robot object');
-        var robot = new Robot();      // create a new instance of the robot model
+	.post(function(req, res) {
+        console.log("Posting");
+	var robot = new Robot();      // create a new instance of the robot model
         robot.home = req.params.building_id; // set the robots home building
         robot.name = req.body.c_name;  // set the robots name (comes from the request)
         robot.updated = Date.now();
@@ -119,7 +119,6 @@ router.route('/:building_id/robots')
         robot.x_pos = 0;
         robot.y_pos = 0;
 
-	console.log(req);
 	
         //if these values are available they will be set accordingly
         if (req.body.c_movement)
@@ -162,72 +161,77 @@ router.route('/:building_id/robots')
 
             res.json(robotMap);
         });
-    });
+    })
 
 // on routes that end in /robot/:robot_id
 // ----------------------------------------------------
 router.route('/:building_id/robots/:robot_id')
 
-    // get the robot with that id (accessed at GET http://localhost:8080/api/robots/:robot_id)
-    .get(function(req, res) {
-        Robot.findById(req.params.robot_id, function(err, robot) {
-            if (err)
-                res.send(err);
-            res.json(robot);
-        });
-    })
-
     // update the robot with this id (accessed at PUT http://localhost:8080/api/robots/:robot_id)
-    .put(function(req, res) {
+    .post(function(req, res) {
+	console.log("Here111");
 
         // use our robot model to find the robot we want
         Robot.findById(req.params.robot_id, function(err, robot) {
+		console.log(robot);	
+       
+		console.log(req.params);
+		console.log("body");
+		console.log(req.body);
 
-            if (err)
+	    if (err)
                 res.send(err);
-
-            robot.updated = Date.now();
+ 
+	    robot.updated = Date.now();
 
 	        //if these values are available they will be set accordingly
-	        if (req.body.c_name)
+	        if (req.body.name)
 	        	robot.name = req.body.name;
-	        if (req.body.c_movement)
-	        	robot.movement = req.body.c_movement;
-	        if (req.body.c_offensive)
-	        	robot.offensive = req.body.c_offensive;
-	        if (req.body.c_emergency)
-	        	robot.emergency = req.body.c_emergency;
-	        if (req.body.c_floor)
-	        	robot.floor = req.body.c_floor;
-	        if (req.body.c_x_pos)
-	        	robot.x_pos = req.body.c_x_pos;
+	        if (req.body.movement)
+	        	robot.movement = req.body.movement;
+	        if (req.body.offensive)
+	        	robot.offensive = req.body.offensive;
+	        if (req.body.emergency)
+	        	robot.emergency = req.body.emergency;
+	        if (req.body.floor)
+	        	robot.floor = req.body.floor;
+	        if (req.body.x_pos)
+	        	robot.x_pos = req.body.x_pos;
 	        if (req.body.c_y_pos)
-	        	robot.y_pos = req.body.c_y_pos;
+	        	robot.y_pos = req.body.y_pos;
+		
 
-            // save the robot
             robot.save(function(err) {
                 if (err)
                     res.send(err);
-
                 res.json({ message: 'Robot updated!' });
             });
-
+	  
         });
     })
 
-    // delete the robot with this id (accessed at DELETE http://localhost:8080/api/robots/:robot_id)
-    .delete(function(req, res) {
-        Robot.remove({
-            _id: req.params.robot_id
-        }, function(err, robot) {
+
+
+    .get(function(req, res) {
+
+            // delete the robot with this id (accessed at DELETE http://localhost:8080/api/robots/:robot_id)
+        if (req.body.delete){
+            Robot.remove({_id: req.params.robot_id}, function(err, robot) {
+                if (err)
+                    res.send(err);
+
+                res.json({ message: 'Successfully deleted' });
+            });
+        }
+
+        else{
+	    Robot.findById(req.params.robot_id, function(err, robot) {
             if (err)
                 res.send(err);
-
-            res.json({ message: 'Successfully deleted' });
-        });
-    });
-
-
+            res.json(robot);
+            });
+        }
+     });
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api

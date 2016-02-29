@@ -47,9 +47,8 @@ script.
   
   function create() {
     var method = "post"; // Set method to post by default if not specified.
-    var path = window.location.href + '/robots'
+    var path = window.location.href + '/robots';
     
-
     var form = document.createElement("form");
     form.setAttribute("method", method);
     form.setAttribute("action", path);
@@ -65,8 +64,31 @@ script.
 
     document.body.appendChild(form);
     form.submit();
+  }
+
+   function update() {
+    var method = "post"; // Set method to post by default if not specified
+    var path = window.location.href + '/robots/' + document.getElementById("robot_id").value;
+    window.location.href = path; 
+
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+    var count = 0;
+    var ids = ["name" , "movement", "emergency", "offensive", "floor", "x_pos", "y_pos"];
+    for(; count < ids.length; count++) {
+      var hiddenField = document.createElement("input");
+      hiddenField.setAttribute("type", "hidden");
+      hiddenField.setAttribute("name", ids[count]);
+      hiddenField.setAttribute("value", document.getElementById(ids[count]).value);
+      form.appendChild(hiddenField);
+    }
+
+    document.body.appendChild(form);
+    form.submit();
  
   }
+
 
   function view() {
     window.location.href = window.location.href + '/robots';
