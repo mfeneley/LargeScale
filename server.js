@@ -173,11 +173,12 @@ router.route('/:building_id/robots/:robot_id')
 
         // use our robot model to find the robot we want
         Robot.findById(req.params.robot_id, function(err, robot) {
-		console.log(robot);	
        
-		console.log(req.params);
-		console.log("body");
-		console.log(req.body);
+
+	    if(robot == null) {
+	        res.json({message: 'Robot does not exist'});	
+	    
+	} else {
 
 	    if (err)
                 res.send(err);
@@ -206,33 +207,25 @@ router.route('/:building_id/robots/:robot_id')
                     res.send(err);
                 res.json({ message: 'Robot updated!' });
             });
-	  
-        });
+        }
+	});
     })
 
 
 
     .get(function(req, res) {
-
-            // delete the robot with this id (accessed at DELETE http://localhost:8080/api/robots/:robot_id)
-        if (req.body.delete){
-            Robot.remove({_id: req.params.robot_id}, function(err, robot) {
-                if (err)
-                    res.send(err);
-
-                res.json({ message: 'Successfully deleted' });
-            });
-        }
-
-        else{
-	    Robot.findById(req.params.robot_id, function(err, robot) {
-            if (err)
-                res.send(err);
-            res.json(robot);
-            });
-        }
-     });
-
+         Robot.findById(req.params.robot_id, function(err, robot) {
+       		if(robot == null) {
+                   res.json({message: 'Robot does not exist'});
+		} else {
+                     Robot.remove({_id: req.params.robot_id}, function(err, robot) {
+          	     if (err)
+                         res.send(err);
+                     res.json({ message: 'Successfully deleted' });
+                     });
+                }});
+        }) 
+    
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 app.use('/api', router);

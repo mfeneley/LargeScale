@@ -41,7 +41,7 @@ html
     button(onclick='update()') Update
     h3 Destroy Robot by ID
     p ID: 
-      input(type="text", id="robot_id")
+      input(type="text", id="delete_id")
     button(onclick='destroy()') Destroy
 script.
   
@@ -67,9 +67,15 @@ script.
   }
 
    function update() {
-    var method = "post"; // Set method to post by default if not specified
-    var path = window.location.href + '/robots/' + document.getElementById("robot_id").value;
-    window.location.href = path; 
+    var method = "post";
+
+    var end = document.getElementById("robot_id").value;
+    if(end == "") {
+       end = "-1";
+    } 
+       
+    var path = window.location.href + '/robots/' + end;
+    window.location.href = window.location.href + '/robots/' + path; 
 
     var form = document.createElement("form");
     form.setAttribute("method", method);
@@ -86,8 +92,29 @@ script.
 
     document.body.appendChild(form);
     form.submit();
- 
   }
+
+
+
+   function destroy() {
+    var method = "get";
+
+    var end = document.getElementById("delete_id").value;
+    if(end == "") {
+       end = "-1";
+    } 
+       
+    var path = window.location.href + '/robots/' + end;
+
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+    document.body.appendChild(form);
+    form.submit();
+  }
+
+
+
 
 
   function view() {
