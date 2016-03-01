@@ -39,10 +39,10 @@ html
     p Y Position: 
       input(type="text", id="y_pos")
     button(onclick='update()') Update
-    h3 Destroy Robot by ID
+    h3 Get Robot by ID
     p ID: 
-      input(type="text", id="delete_id")
-    button(onclick='destroy()') Destroy
+      input(type="text", id="get_id")
+    button(onclick='get()') Get 
 script.
   
   function create() {
@@ -96,10 +96,10 @@ script.
 
 
 
-   function destroy() {
+   function get() {
     var method = "get";
 
-    var end = document.getElementById("delete_id").value;
+    var end = document.getElementById("get_id").value;
     if(end == "") {
        end = "-1";
     } 
